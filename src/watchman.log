@@ -1,0 +1,2 @@
+{"level":"info","time":"2022-03-07T17:59:42.154+0800","linenum":"D:/GoPrj/watchman/src/main.go:80","msg":"Wathman is starting!","serviceName":"serviceName"}
+{"level":"info","time":"2022-03-07T18:04:32.079+0800","linenum":"D:/GoPrj/watchman/src/main.go:84","msg":"Wathman is starting!","servicename":"mabowatchman"}

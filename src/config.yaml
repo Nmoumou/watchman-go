@@ -1,0 +1,25 @@
+records:
+- column: 1
+  file: D:\GoPrj\abc\abc.txt
+- column: 5
+  file: add.txt
+
+udpinfo:
+  host: 127.0.0.1
+  port: 555555
+
+watchman:
+  filelist:
+  - abc.txt
+  - efg.txt
+  path: D:\\GoPrj\\abc
+  startcolumn: 0
+  transfermethod: udp
+  watchtype: all
+
+loginfo:
+  logpath: './watchman.log'
+  loglevel: 'debug'
+  maxsize: 20
+  maxage: 15
+  servicename: mabowatchman
