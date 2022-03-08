@@ -10,7 +10,7 @@ type WatchMan struct {
 	Path           string
 	StartColumn    int
 	TransferMethod string
-	WatchType      string
+	WatchAll       bool
 	FileList       []string
 }
 
@@ -37,10 +37,6 @@ type Config struct {
 	Udpinfo  UdpInfo
 	Records  []Record
 	Loginfo  Logger
-}
-
-func init() {
-
 }
 
 func GetConfig() Config {

@@ -1,13 +1,19 @@
+loginfo:
+  loglevel: debug
+  logpath: ./watchman.log
+  maxage: 15
+  maxsize: 20
+  servicename: mabowatchman
 records:
-- column: 1
-  file: D:\GoPrj\abc\abc.txt
-- column: 5
-  file: add.txt
-
+- file: D:\GoPrj\abc\abc.txt
+  column: 32
+- file: add.txt
+  column: 1
+- file: D:\GoPrj\abc\aaane.txt
+  column: 2
 udpinfo:
   host: 127.0.0.1
-  port: 555555
-
+  port: 60000
 watchman:
   filelist:
   - abc.txt
@@ -15,11 +21,4 @@ watchman:
   path: D:\\GoPrj\\abc
   startcolumn: 0
   transfermethod: udp
-  watchtype: all
-
-loginfo:
-  logpath: './watchman.log'
-  loglevel: 'debug'
-  maxsize: 20
-  maxage: 15
-  servicename: mabowatchman
+  watchall: true
