@@ -27,7 +27,7 @@ udpinfo: #UDP连接信息
   host: 127.0.0.1
   port: 60000
 watchman: #程序配置
-  filelist: #监控列表，如果watchall为false,则从此例表中匹配要监控的文件
+  filelist: #监控列表，如果watchall为false,则从此列表中匹配要监控的文件
   - abc.txt
   - efg.txt
   path: D:\\GoPrj\\abc  #监控文件夹地址
