@@ -37,3 +37,12 @@ watchman: #程序配置
 
 ~~~
 
+UDP输出格式：
+
+~~~json
+{"filename":"D:\\abc.txt","updatecontent":["one column update","two column update"]}
+~~~
+
+filename 更新文件路径及名称
+
+updatecontent 字符串列表,每项表示一行更新内容
