@@ -4,13 +4,16 @@ loginfo:
   maxage: 15
   maxsize: 20
   servicename: mabowatchman
+mqttinfo:
+  host: 110.0.0.10
+  password: aaadkeifkd
+  port: 1883
+  pubtopic: test
+  qos: 0
+  username: watchman01
 records:
 - file: D:\GoPrj\abc\abc.txt
   column: 32
-- file: add.txt
-  column: 1
-- file: D:\GoPrj\abc\aaane.txt
-  column: 2
 udpinfo:
   host: 127.0.0.1
   port: 60000
@@ -20,5 +23,5 @@ watchman:
   - efg.txt
   path: D:\\GoPrj\\abc
   startcolumn: 0
-  transfermethod: udp
+  transfermethod: both
   watchall: true

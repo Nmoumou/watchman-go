@@ -19,6 +19,15 @@ type UdpInfo struct {
 	Port int
 }
 
+type MqttInfo struct {
+	Host     string
+	Port     int
+	Qos      int
+	Username string
+	Password string
+	Pubtopic string
+}
+
 type Record struct {
 	File   string
 	Column int
@@ -35,6 +44,7 @@ type Logger struct {
 type Config struct {
 	Watchman WatchMan
 	Udpinfo  UdpInfo
+	Mqttinfo MqttInfo
 	Records  []Record
 	Loginfo  Logger
 }

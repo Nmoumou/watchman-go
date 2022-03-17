@@ -16,6 +16,13 @@ loginfo:
   maxage: 15              #保存天数
   maxsize: 20             #单个日志文件大小MB
   servicename: mabowatchman  #监控服务名称
+mqttinfo:
+  host: 127.0.0.1   #MQTT服务器地址
+  password: aaadkeifkd #MQTT连接密码
+  port: 1883     #MQTT连接端口
+  pubtopic: test  #MQTT发布主题
+  qos: 0          #QOS等级
+  username: watchman01 #MQTT连接用户名
 records:  #监控记录,保存已监控文本名称及当前记录行数
 - file: D:\GoPrj\abc\abc.txt
   column: 32
@@ -32,7 +39,7 @@ watchman: #程序配置
   - efg.txt
   path: D:\\GoPrj\\abc  #监控文件夹地址
   startcolumn: 0        #监控文件起始行数
-  transfermethod: udp   #发送方式 UDP或MQTT(待后续版本补充)
+  transfermethod: udp   #发送方式 (1)upd (2)mqtt (3)both
   watchall: true        #是否监控文件夹内所有文件
 
 ~~~
