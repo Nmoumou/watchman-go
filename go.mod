@@ -6,7 +6,7 @@ require (
 	github.com/eclipse/paho.mqtt.golang v1.3.5
 	github.com/fsnotify/fsnotify v1.5.4
 	github.com/natefinch/lumberjack v2.0.0+incompatible
-	github.com/spf13/cast v1.4.1
+	github.com/spf13/cast v1.5.0
 	github.com/spf13/viper v1.10.1
 	go.uber.org/zap v1.21.0
 )
