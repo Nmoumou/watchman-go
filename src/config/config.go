@@ -7,7 +7,7 @@ import (
 )
 
 type WatchMan struct {
-	Path           string
+	Path           []string
 	StartColumn    int
 	TransferMethod string
 	WatchAll       bool
@@ -75,8 +75,5 @@ func GetConfig() Config {
 
 func UpdateConfig() bool {
 	err := viper.WriteConfig()
-	if err != nil {
-		return false
-	}
-	return true
+	return err == nil
 }

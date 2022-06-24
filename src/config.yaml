@@ -1,27 +1,42 @@
 loginfo:
-  loglevel: debug
-  logpath: ./watchman.log
-  maxage: 15
-  maxsize: 20
-  servicename: mabowatchman
+    loglevel: debug
+    logpath: ./watchman.log
+    maxage: 15
+    maxsize: 20
+    servicename: mabowatchman
 mqttinfo:
-  host: 110.0.0.10
-  password: aaadkeifkd
-  port: 1883
-  pubtopic: test
-  qos: 0
-  username: watchman01
+    host: 110.0.0.10
+    password: aaadkeifkd
+    port: 1883
+    pubtopic: test
+    qos: 0
+    username: watchman01
 records:
-- file: D:\GoPrj\abc\abc.txt
-  column: 32
+    - file: D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211120\test\aaaa.txt
+      column: 2
+    - file: D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121\Test\Workspace2\SX11-A3\OTHER\AAAA.txt
+      column: 2
+    - file: D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121\Test\Workspace3\SX333\OTHERAAA\333.txt
+      column: 2
 udpinfo:
-  host: 127.0.0.1
-  port: 60000
+    host: 127.0.0.1
+    port: 60000
 watchman:
-  filelist:
-  - abc.txt
-  - efg.txt
-  path: D:\\GoPrj\\abc
-  startcolumn: 0
-  transfermethod: both
-  watchall: true
+    filelist:
+        - abc.txt
+        - efg.txt
+    path:
+        - D:\\GoPrj\\
+        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211120
+        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211120\test
+        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121
+        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121\Test
+        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121\Test\Workspace2
+        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121\Test\Workspace2\SX11-A3
+        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121\Test\Workspace2\SX11-A3\OTHER
+        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121\Test\Workspace3
+        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121\Test\Workspace3\SX333
+        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121\Test\Workspace3\SX333\OTHERAAA
+    startcolumn: 0
+    transfermethod: udp
+    watchall: true

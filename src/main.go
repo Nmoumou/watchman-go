@@ -3,9 +3,6 @@ package main
 import (
 	"bufio"
 	"encoding/json"
-	"github.com/spf13/cast"
-	"github.com/spf13/viper"
-	"go.uber.org/zap"
 	"net"
 	"os"
 	"strconv"
@@ -13,6 +10,10 @@ import (
 	"time"
 	"watchman/src/config"
 	"watchman/src/logger"
+
+	"github.com/spf13/cast"
+	"github.com/spf13/viper"
+	"go.uber.org/zap"
 
 	MQTT "github.com/eclipse/paho.mqtt.golang"
 	"github.com/fsnotify/fsnotify"
@@ -198,6 +199,37 @@ func main() {
 				}
 				// logger.Println("event:", event)
 				if event.Op&fsnotify.Write == fsnotify.Write { //监控文件写入
+					//判断是否是文件夹
+					fileinfo, fileerr := os.Stat(event.Name)
+					if fileerr != nil {
+						return
+					} else if fileinfo.IsDir() { //如果是文件夹,添加此文件夹监控
+						// 重新读取配置文件
+						myConfig := config.GetConfig()
+						tempWatchPath := myConfig.Watchman.Path
+						//查询配置文件中是否已添加此对此文件夹监控
+						isSave := false
+						for _, val := range tempWatchPath {
+							if val == event.Name {
+								isSave = true
+							}
+						}
+						if !isSave { //没有存储
+							mylog.Info("modified folder:" + event.Name)
+							err = watcher.Add(event.Name)
+							if err != nil {
+								mylog.Error(err.Error())
+							}
+							tempWatchPath = append(tempWatchPath, event.Name)
+							viper.Set("watchman.path", tempWatchPath)
+							if config.UpdateConfig() {
+								//mylog.Info("Config update successful")
+							} else {
+								mylog.Error("Config update failed")
+							}
+						}
+						continue
+					}
 					mylog.Info("modified file:" + event.Name)
 					// 判断是否是配置文件中watchall--配置文件为空则监控全部
 					if !myConfig.Watchman.WatchAll { //如果不是监控全部
@@ -208,7 +240,7 @@ func main() {
 								findflag = true
 							}
 						}
-						if findflag == false { //如果没有找到，则本次监控跳过
+						if !findflag { //如果没有找到，则本次监控跳过
 							mylog.Info("This file is not in watchlist, skip...")
 							continue
 						}
@@ -237,7 +269,7 @@ func main() {
 					viper.Set("records", tempRecords)
 
 					if config.UpdateConfig() {
-						// mylog.Info("Config update successful")
+						//mylog.Info("Config update successful")
 					} else {
 						mylog.Error("Config update failed")
 					}
@@ -263,9 +295,11 @@ func main() {
 		}
 	}()
 
-	err = watcher.Add(myConfig.Watchman.Path)
-	if err != nil {
-		mylog.Error(err.Error())
+	for n := 0; n < len(myConfig.Watchman.Path); n++ {
+		err = watcher.Add(myConfig.Watchman.Path[n])
+		if err != nil {
+			mylog.Error(err.Error())
+		}
 	}
 
 	go sendUDP(updateMsgUDP, myConfig.Udpinfo.Host, myConfig.Udpinfo.Port, mylog)
