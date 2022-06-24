@@ -37,7 +37,8 @@ watchman: #程序配置
   filelist: #监控列表，如果watchall为false,则从此列表中匹配要监控的文件
   - abc.txt
   - efg.txt
-  path: D:\\GoPrj\\abc  #监控文件夹地址
+  path: 
+  - D:\\GoPrj\\abc  #监控文件夹地址(文件夹下新创建的文件夹会自动添加)
   startcolumn: 0        #监控文件起始行数
   transfermethod: udp   #发送方式 (1)upd (2)mqtt (3)both
   watchall: true        #是否监控文件夹内所有文件
