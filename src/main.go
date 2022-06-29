@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net"
 	"os"
+	"path"
 	"strconv"
 	"strings"
 	"time"
@@ -230,7 +231,6 @@ func main() {
 						}
 						continue
 					}
-					mylog.Info("modified file:" + event.Name)
 					// 判断是否是配置文件中watchall--配置文件为空则监控全部
 					if !myConfig.Watchman.WatchAll { //如果不是监控全部
 						//判断当前更改文件是否是filelist中的数据
@@ -254,35 +254,45 @@ func main() {
 						readStart = resFind
 					}
 
-					// 读取文件内容
-					res, count := readLine(event.Name, readStart)
-					mylog.Info(event.Name, zap.Strings("content", res))
-					tempRecords := myConfig.Records
-					tempRes := config.Record{File: event.Name, Column: count}
-
-					if resFind == -1 { //读取不到->插入记录
-						tempRecords = append(tempRecords, tempRes)
-					} else { // 能读取到->更新记录
-						tempRecords = updateStart(event.Name, myConfig.Records, count)
+					// 判断是否是配置文件中指定的后缀文件，否则跳过
+					suffixFlag := false
+					for _, val := range myConfig.Watchman.Suffix {
+						if strings.Contains(path.Ext(event.Name), val) {
+							suffixFlag = true
+						}
 					}
-					// 更新配置文件
-					viper.Set("records", tempRecords)
+					if suffixFlag {
+						mylog.Info("modified file:" + event.Name)
+						// 读取文件内容
+						res, count := readLine(event.Name, readStart)
+						mylog.Info(event.Name, zap.Strings("content", res))
+						tempRecords := myConfig.Records
+						tempRes := config.Record{File: event.Name, Column: count}
 
-					if config.UpdateConfig() {
-						//mylog.Info("Config update successful")
-					} else {
-						mylog.Error("Config update failed")
-					}
+						if resFind == -1 { //读取不到->插入记录
+							tempRecords = append(tempRecords, tempRes)
+						} else { // 能读取到->更新记录
+							tempRecords = updateStart(event.Name, myConfig.Records, count)
+						}
+						// 更新配置文件
+						viper.Set("records", tempRecords)
 
-					if len(res) != 0 {
-						//发送到管道
-						tempCotent := contentUpdate{FileName: event.Name, UpdateContent: res}
-						if !strings.Contains(myConfig.Watchman.TransferMethod, "mqtt") {
-							updateMsgUDP <- tempCotent
+						if config.UpdateConfig() {
+							//mylog.Info("Config update successful")
+						} else {
+							mylog.Error("Config update failed")
 						}
 
-						if sendbymqtt {
-							updateMsgMQTT <- tempCotent
+						if len(res) != 0 {
+							//发送到管道
+							tempCotent := contentUpdate{FileName: event.Name, UpdateContent: res}
+							if !strings.Contains(myConfig.Watchman.TransferMethod, "mqtt") {
+								updateMsgUDP <- tempCotent
+							}
+
+							if sendbymqtt {
+								updateMsgMQTT <- tempCotent
+							}
 						}
 					}
 				}

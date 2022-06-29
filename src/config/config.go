@@ -9,6 +9,7 @@ import (
 type WatchMan struct {
 	Path           []string
 	StartColumn    int
+	Suffix         []string
 	TransferMethod string
 	WatchAll       bool
 	FileList       []string

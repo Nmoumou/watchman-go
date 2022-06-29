@@ -12,31 +12,15 @@ mqttinfo:
     qos: 0
     username: watchman01
 records:
-    - file: D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211120\test\aaaa.txt
-      column: 2
-    - file: D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121\Test\Workspace2\SX11-A3\OTHER\AAAA.txt
-      column: 2
-    - file: D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121\Test\Workspace3\SX333\OTHERAAA\333.txt
-      column: 2
 udpinfo:
     host: 127.0.0.1
     port: 60000
 watchman:
     filelist:
-        - abc.txt
-        - efg.txt
-    path:
-        - D:\\GoPrj\\
-        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211120
-        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211120\test
-        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121
-        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121\Test
-        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121\Test\Workspace2
-        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121\Test\Workspace2\SX11-A3
-        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121\Test\Workspace2\SX11-A3\OTHER
-        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121\Test\Workspace3
-        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121\Test\Workspace3\SX333
-        - D:\GoPrj\BX11_A1_YCPG_GPT_Mount_20211121\Test\Workspace3\SX333\OTHERAAA
+    path: D:\Test
     startcolumn: 0
+    suffix:
+        - txt
+        - log
     transfermethod: udp
     watchall: true
