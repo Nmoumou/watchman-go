@@ -24,22 +24,25 @@ mqttinfo:
   qos: 0          #QOS等级
   username: watchman01 #MQTT连接用户名
 records:  #监控记录,保存已监控文本名称及当前记录行数
-- file: D:\GoPrj\abc\abc.txt
-  column: 32
-- file: add.txt
-  column: 1
-- file: D:\GoPrj\abc\aaane.txt
-  column: 2
+  - file: D:\GoPrj\abc\abc.txt
+    column: 32
+  - file: add.txt
+    column: 1
+  - file: D:\GoPrj\abc\aaane.txt
+    column: 2
 udpinfo: #UDP连接信息
   host: 127.0.0.1
   port: 60000
 watchman: #程序配置
   filelist: #监控列表，如果watchall为false,则从此列表中匹配要监控的文件
-  - abc.txt
-  - efg.txt
+    - abc.txt
+    - efg.txt
   path: 
-  - D:\\GoPrj\\abc  #监控文件夹地址(文件夹下新创建的文件夹会自动添加)
-  startcolumn: 0        #监控文件起始行数
+    - D:\\GoPrj\\abc  #监控文件夹地址(文件夹下新创建的文件夹会自动添加)
+  startcolumn: 0      #监控文件起始行数
+  suffix: #配置要监控的文件后缀
+    - txt
+    - log
   transfermethod: udp   #发送方式 (1)upd (2)mqtt (3)both
   watchall: true        #是否监控文件夹内所有文件
 
