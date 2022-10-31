@@ -3,7 +3,7 @@ module watchman
 go 1.17
 
 require (
-	github.com/eclipse/paho.mqtt.golang v1.4.1
+	github.com/eclipse/paho.mqtt.golang v1.4.2
 	github.com/fsnotify/fsnotify v1.5.4
 	github.com/natefinch/lumberjack v2.0.0+incompatible
 	github.com/spf13/cast v1.5.0
