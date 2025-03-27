@@ -5,22 +5,23 @@ loginfo:
     maxsize: 20
     servicename: mabowatchman
 mqttinfo:
-    host: 110.0.0.10
-    password: aaadkeifkd
+    host: 59.110.157.60
+    password: TyinD@444b
     port: 1883
     pubtopic: test
     qos: 0
-    username: watchman01
+    username: client001
 records:
+    - file: G:\2025\test\abc.txt
+      column: 7
 udpinfo:
     host: 127.0.0.1
     port: 60000
 watchman:
-    filelist:
-    path: D:\Test
+    path: G:\\2025\\test
     startcolumn: 0
     suffix:
         - txt
         - log
-    transfermethod: udp
+    transfermethod: mqtt
     watchall: true
