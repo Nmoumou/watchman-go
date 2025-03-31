@@ -58,6 +58,7 @@ func GetConfig() Config {
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("./configs/")
 	viper.AddConfigPath(".")
+	viper.AddConfigPath("../configs/")
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
 			fmt.Println("Config file not found - ", err.Error())

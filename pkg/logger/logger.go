@@ -1,10 +1,11 @@
 package logger
 
 import (
+	"os"
+
 	"github.com/natefinch/lumberjack"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"os"
 )
 
 func InitLogger(logpath string, loglevel string, maxsize int, maxage int, servicename string) *zap.Logger {
@@ -34,10 +35,10 @@ func InitLogger(logpath string, loglevel string, maxsize int, maxage int, servic
 		level = zap.InfoLevel
 	}
 	encoderConfig := zapcore.EncoderConfig{
-		TimeKey:        "time",
-		LevelKey:       "level",
-		NameKey:        "logger",
-		CallerKey:      "linenum",
+		TimeKey:  "time",
+		LevelKey: "level",
+		NameKey:  "logger",
+		//CallerKey:      "linenum",
 		MessageKey:     "msg",
 		StacktraceKey:  "stacktrace",
 		LineEnding:     zapcore.DefaultLineEnding,
