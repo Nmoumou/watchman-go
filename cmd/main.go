@@ -21,8 +21,11 @@ import (
 )
 
 type contentUpdate struct {
+	DeviceId      string   `json:"deviceid"`
+	DeviceName    string   `json:"devicename"`
 	FileName      string   `json:"filename"`
 	UpdateContent []string `json:"updatecontent"`
+	TimeStamp     string   `json:"timestamp"`
 }
 
 // 从指定行开始读取文本内容
@@ -137,6 +140,9 @@ func main() {
 		myConfig.Loginfo.ServiceName)
 
 	readStart := myConfig.Watchman.StartColumn
+
+	deviceId := myConfig.Watchman.Deviceid
+	deviceName := myConfig.Watchman.DeviceName
 
 	// mqtt配置部分
 	mqttserver := "tcp://" + myConfig.Mqttinfo.Host + ":" + strconv.Itoa(myConfig.Mqttinfo.Port)
@@ -285,7 +291,7 @@ func main() {
 
 						if len(res) != 0 {
 							//发送到管道
-							tempCotent := contentUpdate{FileName: event.Name, UpdateContent: res}
+							tempCotent := contentUpdate{DeviceId: deviceId, DeviceName: deviceName, FileName: event.Name, UpdateContent: res, TimeStamp: time.Now().Format("2006-01-02 15:04:05")}
 							if !strings.Contains(myConfig.Watchman.TransferMethod, "mqtt") {
 								updateMsgUDP <- tempCotent
 							}

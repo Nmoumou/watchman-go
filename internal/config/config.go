@@ -13,6 +13,8 @@ type WatchMan struct {
 	TransferMethod string
 	WatchAll       bool
 	FileList       []string
+	Deviceid       string
+	DeviceName     string
 }
 
 type UdpInfo struct {
