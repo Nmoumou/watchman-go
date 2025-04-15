@@ -24,6 +24,7 @@ type contentUpdate struct {
 	DeviceId      string   `json:"deviceid"`
 	DeviceName    string   `json:"devicename"`
 	FileName      string   `json:"filename"`
+	FilePath      string   `json:"filepath"`
 	UpdateContent []string `json:"updatecontent"`
 	TimeStamp     string   `json:"timestamp"`
 }
@@ -212,7 +213,7 @@ func main() {
 						return
 					} else if fileinfo.IsDir() { //如果是文件夹,添加此文件夹监控
 						// 重新读取配置文件
-						myConfig := config.GetConfig()
+						myConfig = config.GetConfig()
 						tempWatchPath := myConfig.Watchman.Path
 						//查询配置文件中是否已添加此对此文件夹监控
 						isSave := false
@@ -252,7 +253,7 @@ func main() {
 						}
 					}
 					// 重新读取配置文件
-					myConfig := config.GetConfig()
+					myConfig = config.GetConfig()
 					// 查看记录中是否存在读取位置
 					resFind := findStart(event.Name, myConfig.Records)
 					//mylog.Info("FIND*********" + cast.ToString(resFind))
@@ -291,7 +292,14 @@ func main() {
 
 						if len(res) != 0 {
 							//发送到管道
-							tempCotent := contentUpdate{DeviceId: deviceId, DeviceName: deviceName, FileName: event.Name, UpdateContent: res, TimeStamp: time.Now().Format("2006-01-02 15:04:05")}
+							tempCotent := contentUpdate{
+								DeviceId:      deviceId,
+								DeviceName:    deviceName,
+								FilePath:      event.Name,
+								FileName:      strings.Split(event.Name, "\\")[len(strings.Split(event.Name, "\\"))-1], //strings.Split(event.Name, "\\")[len(strings.Split(event.Name, "\\"))-1] + "(" + cast.ToString(count) +
+								UpdateContent: res,
+								TimeStamp:     time.Now().Format("2006-01-02 15:04:05"),
+							}
 							if !strings.Contains(myConfig.Watchman.TransferMethod, "mqtt") {
 								updateMsgUDP <- tempCotent
 							}
