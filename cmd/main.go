@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"encoding/json"
 	"net"
 	"os"
@@ -12,9 +13,14 @@ import (
 	config "watchman/internal/config"
 	logger "watchman/pkg/logger"
 
+	"github.com/saintfish/chardet"
 	"github.com/spf13/cast"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
+	"golang.org/x/text/encoding"
+	"golang.org/x/text/encoding/simplifiedchinese"
+	"golang.org/x/text/encoding/unicode"
+	"golang.org/x/text/transform"
 
 	MQTT "github.com/eclipse/paho.mqtt.golang"
 	"github.com/fsnotify/fsnotify"
@@ -32,7 +38,28 @@ type contentUpdate struct {
 // 从指定行开始读取文本内容
 func readLine(fileName string, lineNumber int) ([]string, int) {
 	file, _ := os.Open(fileName)
-	fileScanner := bufio.NewScanner(file)
+	defer file.Close()
+
+	// 检测编码
+	content, _ := os.ReadFile(fileName)
+	detector := chardet.NewTextDetector()
+	result, _ := detector.DetectBest(content)
+
+	// 动态选择解码器
+	var decoder *encoding.Decoder
+	switch strings.ToUpper(result.Charset) {
+	case "UTF-8":
+		decoder = unicode.UTF8.NewDecoder()
+	case "GB18030", "GBK":
+		decoder = simplifiedchinese.GB18030.NewDecoder()
+	default:
+		decoder = simplifiedchinese.GB18030.NewDecoder()
+	}
+
+	// 创建转换流
+	transcodedReader := transform.NewReader(bytes.NewReader(content), decoder)
+	fileScanner := bufio.NewScanner(transcodedReader)
+
 	lineCount := 1
 	var res []string
 	for fileScanner.Scan() {
@@ -44,8 +71,11 @@ func readLine(fileName string, lineNumber int) ([]string, int) {
 		}
 		lineCount++
 	}
-	defer file.Close()
 
+	// 如果res内容过大，只保留最后100条
+	if len(res) > 100 {
+		res = res[len(res)-100:]
+	}
 	return res, lineCount
 }
 
@@ -176,7 +206,7 @@ func main() {
 
 	updateMsgMQTT := make(chan contentUpdate, 300)
 
-	mylog.Info("WathMan is starting!")
+	mylog.Info("WatchMan is starting!")
 
 	//如果开启MQTT方式则进行MQTT连接
 	if myConfig.Watchman.TransferMethod == "both" || myConfig.Watchman.TransferMethod == "mqtt" {
@@ -269,10 +299,10 @@ func main() {
 						}
 					}
 					if suffixFlag {
-						mylog.Info("modified file:" + event.Name)
+						//mylog.Info("modified file:" + event.Name)
 						// 读取文件内容
 						res, count := readLine(event.Name, readStart)
-						mylog.Info(event.Name, zap.Strings("content", res))
+						//mylog.Info(event.Name, zap.Strings("content", res))
 						tempRecords := myConfig.Records
 						tempRes := config.Record{File: event.Name, Column: count}
 

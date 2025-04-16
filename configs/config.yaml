@@ -1,8 +1,8 @@
 loginfo:
     loglevel: debug
     logpath: ./watchman.log
-    maxage: 15
-    maxsize: 20
+    maxage: 7   # 日志保留天数
+    maxsize: 30  # 每个日志文件保存大小，单位MB
     servicename: mabowatchman
 mqttinfo:
     host: 59.110.157.60
